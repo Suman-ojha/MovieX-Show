@@ -1,9 +1,9 @@
 import React from 'react'
 import './style.scss'
-const searchResult = () => {
+const SearchResult = () => {
   return (
     <div>searchResult</div>
   )
 }
 
-export default searchResult
+export default SearchResult
