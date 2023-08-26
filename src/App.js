@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import {Route,Routes} from 'react-router-dom'
 import {fetchDataFromApi} from './utils/api'
 import { useSelector, useDispatch } from 'react-redux'
-import { getApiConfiguration } from './store/homeSlice'
+import { getApiConfiguration, getGenres } from './store/homeSlice'
 
 import Home from './pages/home/Home'
 import Page_404 from './pages/404/Page_404'
@@ -11,12 +11,33 @@ import Details from './pages/details/Details'
 import SearchResult from './pages/searchResult/SearchResult'
 import Header from './Components/header/Header'
 import Footer from './Components/footer/Footer'
+
 const App = () => {
   const dispatch = useDispatch()
   const {url} = useSelector((state) => state.home)
   useEffect(() => {
     fetchApiDataConfig();
+    genresCall();
   }, [])
+
+
+  const genresCall = async () =>{
+    let promises = []
+    let endPoints = ["tv","movie"]
+    let allGenres = {}
+
+    endPoints.forEach((url)=>{
+      promises.push(fetchDataFromApi(`/genre/${url}/list`))
+    })
+
+    const data =await Promise.all(promises);
+    console.log(data);
+    //now will store the value as key-value pair within that item
+    data.map(({genres})=>{
+      return  genres.map((item)=>(allGenres[item.id]=item))
+    })
+    dispatch(getGenres(allGenres))
+  }
   
   const fetchApiDataConfig = async() =>{
     try {
