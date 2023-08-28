@@ -43,6 +43,9 @@ const Footer = () => {
                         <FaLinkedin />
                     </span>
                 </div>
+                <div className="name">
+                    Developed by Suman Ojha | @{new Date().getFullYear()}
+                </div>
             </ContentWrapper>
         </footer>
     );
