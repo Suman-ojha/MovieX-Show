@@ -8,7 +8,7 @@ import Carousel from '../../../Components/carousel/Carousel'
 const Trending = () => {
     const [endpoints, setEndpoints] = useState("day")
     const {data,loading} = useFetch(`trending/all/${endpoints}`)
-    const onTabChange = (tab , index) =>{
+    const onTabChange = (tab ) =>{
         setEndpoints( tab === "Day" ? "day" : "week" )
     }
   return (

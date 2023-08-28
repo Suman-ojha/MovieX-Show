@@ -29,7 +29,7 @@ const App = () => {
     endPoints.forEach((url)=>{
       promises.push(fetchDataFromApi(`/genre/${url}/list`))
     })
-
+    //we are using promise.all  to fetch multiple api with in same time
     const data =await Promise.all(promises);
     console.log(data);
     //now will store the value as key-value pair within that item

@@ -7,7 +7,7 @@ const Genre = ({data}) => {
  const {genres} = useSelector((state) => state.home)
   return (
     <div className='genres'>
-        {data.map((id)=>{
+        {data?.map((id)=>{
             return(
                 <div className="genre">
                     {genres[id]?.name}

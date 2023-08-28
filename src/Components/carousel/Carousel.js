@@ -14,7 +14,8 @@ import PosterFallback from "../../assets/no-poster.png";
 import CircleRating from "../circleRating/CircleRating";
 import Genre from "../genre/Genre";
 
-const Carousel = ({ data, loading }) => {
+const Carousel = ({ data, loading ,endpoint, title}) => {
+  //for referencing the object
   const carouselRef = useRef();
   const { url } = useSelector((state) => state.home);
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ const Carousel = ({ data, loading }) => {
     );
   };
 
+  //to scroll left and right direction
   const navigation = (direction) => {
     try {
       const container = carouselRef.current;
@@ -44,9 +46,11 @@ const Carousel = ({ data, loading }) => {
     }
   };
 
+  //here contenWarpper(Higher order function) center the elements
   return (
     <div className="carousel">
       <ContentWrapper>
+      {title && (<div className="carouselTitle">{title}</div>)}
         <BsFillArrowLeftCircleFill
           className="carouselLeftNav arrow"
           onClick={() => navigation("left")}
@@ -58,24 +62,24 @@ const Carousel = ({ data, loading }) => {
         {!loading ? (
           <div className="carouselItems" ref={carouselRef}>
             {data?.map((item, idx) => {
-              const posterUrl = item.poster_path
-                ? url?.poster + item?.poster_path
+              const posterUrl = item?.poster_path
+                ? (url?.poster + item?.poster_path)
                 : PosterFallback;
               return (
                 <div
                   key={idx}
                   className="carouselItem"
-                  onClick={() => navigate(`/${item?.media_type}/${item?.id}`)}
+                  onClick={() => navigate(`/${item?.media_type || endpoint}/${item?.id}`)}
                 >
                   <div className="posterBlock">
                     <Img src={posterUrl} alt="poster image" />
-                    <CircleRating rating={item?.vote_average.toFixed(1)} />
-                    <Genre data={item?.genre_ids.slice(0, 2)} />
+                    <CircleRating rating={item?.vote_average?.toFixed(1)} />
+                    <Genre data={item?.genre_ids?.slice(0, 2)} />
                   </div>
                   <div className="textBlock">
                     <span className="title">{item?.title || item?.name}</span>
                     <span className="date">
-                      {dayjs(item?.release_Date).format("MMM D,YYYY")}
+                      {dayjs(item?.release_Date)?.format("MMM D,YYYY")}
                     </span>
                   </div>
                 </div>
